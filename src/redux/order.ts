@@ -44,7 +44,6 @@ const customFieldSlice = createSlice({
     builder
       .addCase(fetchOrders.pending, (state) => {
         state.loading = true;
-        state.entities = [];
         state.updateSuccess = false;
         state.errorMessage = null;
         state.successMessage = null;
