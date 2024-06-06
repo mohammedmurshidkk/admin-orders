@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
@@ -5,16 +6,25 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import ChatCanvas from './ChatCanvas';
 import ChatTypeField from '../../../core/components/ChatTypeField';
+import { useAppDispatch } from '../../../libs/store/configureStore';
+import { sendMessage } from '../../../redux/chat';
+import ChatCanvas from './ChatCanvas';
 
 const ChatRoom = () => {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
-  const onSend = () => {};
+  const [message, setMessage] = useState('');
+
+  const onSend = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await dispatch(sendMessage({ message }));
+    setMessage('');
+  };
 
   return (
-    <Stack sx={{ height: '100%' }}>
+    <Stack sx={{ height: '100%' }} component='form' onSubmit={onSend}>
       <Grid
         container
         alignItems='center'
@@ -37,7 +47,7 @@ const ChatRoom = () => {
         sx={{ backgroundColor: theme.palette.grey[300], p: 2, height: '10%' }}
       >
         <Grid item flex={2}>
-          <ChatTypeField />
+          <ChatTypeField value={message} onChange={(e) => setMessage(e?.target?.value)} />
         </Grid>
         <Button
           sx={{
@@ -48,7 +58,8 @@ const ChatRoom = () => {
               backgroundColor: theme.palette.common.white,
             },
           }}
-          onClick={onSend}
+          type='submit'
+          disabled={!message}
         >
           <SendIcon fontSize='small' />
         </Button>

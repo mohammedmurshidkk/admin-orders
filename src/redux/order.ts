@@ -36,7 +36,7 @@ export const updateOrder = createAsyncThunk(
   { serializeError: serializeAxiosError },
 );
 
-const customFieldSlice = createSlice({
+const orderSlice = createSlice({
   name: 'order',
   initialState: initialState,
   reducers: {},
@@ -77,4 +77,4 @@ const customFieldSlice = createSlice({
   },
 });
 
-export default customFieldSlice.reducer;
+export default orderSlice.reducer;
